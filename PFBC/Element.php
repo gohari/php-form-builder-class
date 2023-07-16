@@ -128,8 +128,12 @@ abstract class Element extends Base {
 	public function render() {
 		if(isset($this->attributes["value"]) && is_array($this->attributes["value"]))
 			$this->attributes["value"] = "";
-
-		echo '<input', $this->getAttributes(), '/>';
+		
+		$temp = $this->getAttributes();
+		if(!strpos($temp,"class"))
+			$temp = 'class="form-control" ' . $temp;
+		echo '<input ', $temp , '/>';
+		// echo '<input ', $this->getAttributes(), '/>';
 	}
 
 	/*If an element requires inline stylesheet definitions, this method is used send them to the browser before

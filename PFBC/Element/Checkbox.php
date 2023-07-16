@@ -18,16 +18,18 @@ class Checkbox extends \PFBC\OptionElement {
 
 		$labelClass = $this->_attributes["type"];
 		if(!empty($this->inline))
+		{
 			$labelClass .= " inline";
-
+			$divClass = " checkbox-inline";
+		}
 		$count = 0;
 		foreach($this->options as $value => $text) {
 			$value = $this->getOptionValue($value);
 
-			echo '<label class="', $labelClass, '"> <input id="', $this->_attributes["id"], '-', $count, '"', $this->getAttributes(array("id", "value", "checked", "required")), ' value="', $this->filter($value), '"';
+			echo '<div class="checkbox ', $divClass . '"><label class="', $labelClass, '"> <input id="', $this->_attributes["id"], '-', $count, '"', $this->getAttributes(array("id", "value", "checked", "required")), ' value="', $this->filter($value), '"';
 			if(in_array($value, $this->_attributes["value"]))
 				echo ' checked="checked"';
-			echo '/> ', $text, ' </label> ';
+			echo '/> ', $text, ' </label></div> ';
 			++$count;
 		}	
 	}

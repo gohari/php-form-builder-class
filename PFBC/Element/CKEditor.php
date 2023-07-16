@@ -12,6 +12,7 @@ class CKEditor extends Textarea {
     }
 
 	function renderJS() {
+/*
 		if(!empty($this->basic)) {
 			echo <<<JS
 var basicConfig = {
@@ -23,6 +24,7 @@ var basicConfig = {
 		{ name: 'document',	   groups: [ 'mode', 'document', 'doctools' ] },
 		{ name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
 		{ name: 'forms' },
+		 [ 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ],
 		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
 		{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align' ] },
 		{ name: 'links' },
@@ -36,7 +38,7 @@ var basicConfig = {
 };
 JS;
 		}
-
+*/
 		echo 'CKEDITOR.replace("', $this->_attributes["id"], '"';
 		if(!empty($this->basic))
 			echo ', basicConfig';
@@ -50,7 +52,8 @@ JS;
 
 	function getJSFiles() {
 		return array(
-			$this->_form->getResourcesPath() . "/ckeditor/ckeditor.js"
+			// $this->_form->getResourcesPath() . "/ckeditor/ckeditor.js"
+			"ckeditor/ckeditor.js"
 		);
 	}
 }	

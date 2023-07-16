@@ -27,10 +27,10 @@ class Checksort extends Sort {
             $value = $this->getOptionValue($value);
             if(!empty($this->inline) && $count > 0)
                 echo ' ';
-            echo '<label class="', $labelClass, '"><input id="', $this->_attributes["id"], '-', $count, '"', $this->getAttributes(array("id", "value", "checked", "name", "onclick", "required")), ' value="', $this->filter($value), '"';
+            echo '<div class="checkbox"><label class="', $labelClass, '"><input id="', $this->_attributes["id"], '-', $count, '"', $this->getAttributes(array("id", "value", "checked", "name", "onclick", "required")), ' value="', $this->filter($value), '"';
             if(in_array($value, $this->_attributes["value"]))
                 echo ' checked="checked"';
-            echo ' onclick="updateChecksort(this, \'', str_replace(array('"', "'"), array('&quot;', "\'"), $text), '\');"/>', $text, '</label>';
+            echo ' onclick="updateChecksort(this, \'', str_replace(array('"', "'"), array('&quot;', "\'"), $text), '\');"/>', $text, '</label></div> ';
 
 			if(in_array($value, $this->_attributes["value"]))
 				$existing .= '<li id="' . $this->_attributes["id"] . "-sort-" . $count . '" class="ui-state-default"><input type="hidden" name="' . $this->_attributes["name"] . '" value="' . $value . '"/>' . $text . '</li>';

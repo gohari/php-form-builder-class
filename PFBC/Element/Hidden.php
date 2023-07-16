@@ -8,7 +8,7 @@ class Hidden extends \PFBC\Element {
 		if(!is_array($properties))
 			$properties = array();
 
-		if(!empty($value))
+		// if(!empty($value))
 			$properties["value"] = $value;
 
 		parent::__construct("", $name, $properties);

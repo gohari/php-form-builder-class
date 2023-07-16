@@ -31,8 +31,16 @@ JS;
 		return $list;
 	}
 
-    public function render() {
+    public function render() {	
         $errors = $this->parse($this->_form->getErrors());
+		// print_r($errors);
+		$temp = "Error: The reCATPCHA response provided was incorrect.  Please re-try.";
+		// echo array_search($temp, $errors);
+		if(($key = array_search($temp, $errors)) !== false) {
+			unset($errors[$key]);
+		}
+		// print_r($errors);
+		
         if(!empty($errors)) {
             $size = sizeof($errors);
 			$errors = implode("</li><li>", $errors);

@@ -107,6 +107,7 @@ class Country extends Select {
             "IS" => "Iceland",
             "IN" => "India",
             "ID" => "Indonesia",
+            "IR" => "Iran",
             "IQ" => "Iraq",
             "IE" => "Ireland",
             "IM" => "Isle Of Man",
