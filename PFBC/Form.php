@@ -1,5 +1,5 @@
 <?php
-namespace App\Helpers\PFBC;
+namespace PFBC;
 
 /*This project's namespace structure is leveraged to autoload requested classes at runtime.*/
 function Load($class) {
@@ -37,7 +37,7 @@ class Form extends Base {
 
 		if(isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on")
 			$this->_prefix = "https";
-
+		
 		/*The Standard view class is applied by default and will be used unless a different view is
 		specified in the form's configure method*/
 		if(empty($this->view))
@@ -45,7 +45,7 @@ class Form extends Base {
 
 		if(empty($this->errorView))
 			$this->errorView = new ErrorView\Standard;
-
+		
 		/*The resourcesPath property is used to identify where third-party resources needed by the
 		project are located.  This property will automatically be set properly if the PFBC directory
 		is uploaded within the server's document root.  If symbolic links are used to reference the PFBC
@@ -130,9 +130,9 @@ class Form extends Base {
 			$id = $this->_attributes["id"];
 			if(!empty($_SESSION["pfbc"][$id]["errors"]))
 				$errors = $_SESSION["pfbc"][$id]["errors"];
-		}
+		}	
 
-		return $errors;
+		return $errors;	
 	}
 
 	protected static function getSessionValues($id = "pfbc") {
@@ -151,7 +151,7 @@ class Form extends Base {
 				$data = $_POST;
 			else
 				$data = $_GET;
-
+			
 			/*Any values/errors stored in the session for this form are cleared.*/
 			self::clearValues($id);
 			self::clearErrors($id);
@@ -178,19 +178,19 @@ class Form extends Base {
 						}
 						else
 							$value = stripslashes($value);
-
+						
 						if($element->prefillAfterValidation())
 							self::_setSessionValue($id, $name, $value);
-					}
+					}		
 					else
 						$value = null;
-
+					
 					/*If a validation error is found, the error message is saved in the session along with
 					the element's name.*/
 					if(!$element->isValid($value)) {
 						self::setError($id, $element->getErrors(), $name);
 						$valid = false;
-					}
+					}	
 				}
 			}
 
@@ -199,7 +199,7 @@ class Form extends Base {
 				if($clearValues)
 					self::clearValues($id);
 				self::clearErrors($id);
-			}
+			}		
 		}
 		else
 			$valid = false;
@@ -235,14 +235,14 @@ class Form extends Base {
 				if(!empty($label)) {
 					$element->setAttribute("placeholder", $label);
 					$element->setLabel("");
-				}
-			}
+				}	
+			}	
 		}
 
 		$this->view->_setForm($this);
 		$this->errorView->_setForm($this);
 
-		/*When validation errors occur, the form's submitted values are saved in a session
+		/*When validation errors occur, the form's submitted values are saved in a session 
 		array, which allows them to be pre-populated when the user is redirected to the form.*/
 		$values = self::getSessionValues($this->_attributes["id"]);
 		if(!empty($values))
@@ -253,7 +253,7 @@ class Form extends Base {
 			ob_start();
 
 		//For usability, the prevent array is treated case insensitively.
-		$this->prevent = array_map("strtolower", $this->prevent);
+		$this->prevent = array_map("strtolower", $this->prevent);	
 
 		$this->renderCSS();
 		$this->view->render();
@@ -269,7 +269,7 @@ class Form extends Base {
 		}
 	}
 
-	/*When ajax is used to submit the form's data, validation errors need to be manually sent back to the
+	/*When ajax is used to submit the form's data, validation errors need to be manually sent back to the 
 	form using json.*/
 	public static function renderAjaxErrorResponse($id = "pfbc") {
 		$form = self::recover($id);
@@ -292,32 +292,32 @@ class Form extends Base {
 		$urls = array(
 			$this->resourcesPath . "/bootstrap/css/bootstrap.min.css",
 			$this->resourcesPath . "/bootstrap/css/bootstrap-responsive.min.css"
-		);
+		);	
 
 		foreach($this->_elements as $element) {
 			$elementUrls = $element->getCSSFiles();
 			if(is_array($elementUrls))
 				$urls = array_merge($urls, $elementUrls);
-		}
+		}	
 
-		/*This section prevents duplicate css files from being loaded.*/
-		if(!empty($urls)) {
+		/*This section prevents duplicate css files from being loaded.*/ 
+		if(!empty($urls)) {	
 			$urls = array_values(array_unique($urls));
 			foreach($urls as $url) {
 				if($this->isAllowedUrl($url))
 					echo '<link type="text/css" rel="stylesheet" href="', $url, '"/>';
-			}
-		}
+			}	
+		}	
 	}
 
 	protected function renderJS() {
-		$this->renderJSFiles();
+		$this->renderJSFiles();	
 
 		echo '<script type="text/javascript">';
 		$this->view->renderJS();
 		foreach($this->_elements as $element)
 			$element->renderJS();
-
+		
 		$id = $this->_attributes["id"];
 
 		if(!empty($this->alternateJsInit))
@@ -327,8 +327,8 @@ class Form extends Base {
 
 		/*When the form is submitted, disable all submit buttons to prevent duplicate submissions.*/
 		echo <<<JS
-		jQuery("#$id").bind("submit", function() {
-			jQuery(this).find("input[type=submit]").attr("disabled", "disabled");
+		jQuery("#$id").bind("submit", function() { 
+			jQuery(this).find("input[type=submit]").attr("disabled", "disabled"); 
 		});
 JS;
 
@@ -339,12 +339,12 @@ JS;
 		$this->view->jQueryDocumentReady();
 		foreach($this->_elements as $element)
 			$element->jQueryDocumentReady();
-
+		
 		/*For ajax, an anonymous onsubmit javascript function is bound to the form using jQuery.  jQuery's
 		serialize function is used to grab each element's name/value pair.*/
 		if(!empty($this->ajax)) {
 			echo <<<JS
-			jQuery("#$id").bind("submit", function() {
+			jQuery("#$id").bind("submit", function() { 
 JS;
 
 			/*Clear any existing validation errors.*/
@@ -363,8 +363,8 @@ JS;
 			$this->errorView->applyAjaxErrorResponse();
 
 			echo <<<JS
-							jQuery("html, body").animate({ scrollTop: jQuery("#$id").offset().top }, 500 );
-						}
+							jQuery("html, body").animate({ scrollTop: jQuery("#$id").offset().top }, 500 ); 
+						} 
 						else {
 JS;
 
@@ -375,11 +375,11 @@ JS;
 
 			/*After the form has finished submitting, re-enable all submit buttons to allow additional submissions.*/
 			echo <<<JS
-						}
-						jQuery("#$id").find("input[type=submit]").removeAttr("disabled");
-					}
-				});
-				return false;
+						} 
+						jQuery("#$id").find("input[type=submit]").removeAttr("disabled"); 
+					}	
+				}); 
+				return false; 
 			});
 JS;
 		}
@@ -391,22 +391,22 @@ JS;
 		$urls = array(
 			$this->resourcesPath . "/jquery.min.js",
 			$this->resourcesPath . "/bootstrap/js/bootstrap.min.js"
-		);
+		);	
 
 		foreach($this->_elements as $element) {
 			$elementUrls = $element->getJSFiles();
 			if(is_array($elementUrls))
 				$urls = array_merge($urls, $elementUrls);
-		}
+		}		
 
-		/*This section prevents duplicate js files from being loaded.*/
-		if(!empty($urls)) {
+		/*This section prevents duplicate js files from being loaded.*/ 
+		if(!empty($urls)) {	
 			$urls = array_values(array_unique($urls));
 			foreach($urls as $url) {
 				if($this->isAllowedUrl($url))
 					echo '<script type="text/javascript" src="', $url, '"></script>';
-			}
-		}
+			}	
+		}	
 	}
 
 	/*The save method serialized the form's instance and saves it in the session.*/
